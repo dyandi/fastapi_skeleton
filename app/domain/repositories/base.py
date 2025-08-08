@@ -1,5 +1,6 @@
 from typing import Protocol, runtime_checkable, Iterable, Optional
 from app.domain.models.user import User
+from app.domain.models.doctor import Doctor
 
 @runtime_checkable
 class UserRepository(Protocol):
@@ -7,3 +8,17 @@ class UserRepository(Protocol):
     async def get_by_id(self, user_id: int) -> Optional[User]: ...
     async def get_by_email(self, email: str) -> Optional[User]: ...
     async def list(self, *, limit: int = 50, offset: int = 0) -> Iterable[User]: ...
+
+
+@runtime_checkable
+class DoctorRepository(Protocol):
+    async def create(self, *, name: str, specialty: str) -> Doctor: ...
+    async def get_by_id(self, doctor_id: int) -> Optional[Doctor]: ...
+    async def update(
+        self,
+        doctor_id: int,
+        *,
+        name: str,
+        specialty: str,
+    ) -> Optional[Doctor]: ...
+    async def delete(self, doctor_id: int) -> None: ...
